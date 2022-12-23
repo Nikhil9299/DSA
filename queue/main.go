@@ -15,13 +15,13 @@ type Queue struct {
 	size  int
 }
 
-func (Q Queue) len() int {
-	return Q.size
-}
+//
 
 func (Q Queue) isEmpty() bool {
 	return Q.size == 0
 }
+
+//
 
 func (Q Queue) display() {
 	for Q.front != nil {
