@@ -1,82 +1,90 @@
 package main
 
-import "fmt"
+import (
+	"fmt"
+)
 
-type node struct {
-	data int
-	next *node
+type Node struct {
+	val  int
+	next *Node
 }
 
-type qlinked struct {
-	front *node
-	rear  *node
+type Queue struct {
+	front *Node
+	rear  *Node
 	size  int
 }
 
-func (s *qlinked) len() int {
-	count := 0
-	p := s.front
-	for p != nil {
-		p = p.next
-		count++
+func (Q Queue) len() int {
+	return Q.size
+}
+
+func (Q Queue) isEmpty() bool {
+	return Q.size == 0
+}
+
+func (Q Queue) display() {
+	for Q.front != nil {
+		fmt.Printf("%d ->", Q.front.val)
+		Q.front = Q.front.next
 	}
-	return count
+	fmt.Println("")
 }
 
-func (s *qlinked) isempty() bool {
-	return s.len() == 0
-}
-
-func (s *qlinked) enqueue(e int) {
-	newest := &node{e, nil}
-	if s.isempty() {
-		s.front = newest
+func (Q *Queue) enqueue(element int) {
+	new := &Node{element, nil}
+	if Q.isEmpty() {
+		Q.front = new
 	} else {
-		s.rear.next = newest
+		Q.rear.next = new
 	}
-	s.rear = newest
+	Q.rear = new
+	Q.size++
 }
 
-func (s *qlinked) dequeue() int {
-	if s.isempty() {
-		fmt.Println("Queue is empty")
-		return 0
-	} else {
-		e := s.front.data
-		s.front = s.front.next
-		return e
+func (Q *Queue) dequeue() int {
+	if Q.isEmpty() {
+		fmt.Println("Queue is Empty")
+		return -1
 	}
 
+	res := Q.front.val
+	Q.front = Q.front.next
+
+	if Q.isEmpty() {
+		Q.rear = Q.rear.next
+	}
+	Q.size--
+	return res
 }
 
-func (s *qlinked) first() int {
-	if s.isempty() {
-		fmt.Println("stack is empty")
-		return 0
+func (Q Queue) first() int {
+	if Q.isEmpty() {
+		fmt.Println("Queue is Empty")
+		return -1
 	}
-	return s.front.data
-}
-
-func (s *qlinked) display() {
-	p := s.front
-	for p != nil {
-		fmt.Println(p.data)
-		p = p.next
-	}
+	return Q.rear.val
 }
 
 func main() {
-	// Q1 := qlinked{}
-	// Q1.enqueue(10)
-	// Q1.enqueue(20)
-	// Q1.enqueue(30)
-	// Q1.enqueue(40)
-	// Q1.enqueue(50)
-	// Q1.display()
-	// length := Q1.len()
-	// fmt.Println("the length of the Queue is")
-	// fmt.Println(length)
-	// fmt.Println("Printing the queues first element")
-	// fmt.Println(Q1.first())
-	// fmt.Println(Q1.dequeue())
+	fmt.Println("----Queue-----")
+	q := Queue{}
+	q.display()
+	q.enqueue(10)
+	q.enqueue(20)
+	q.enqueue(30)
+	q.enqueue(40)
+	fmt.Println(q.first())
+	q.display()
+	fmt.Println(q.dequeue())
+	q.display()
+	fmt.Println(q.dequeue())
+	q.display()
+	fmt.Println(q.dequeue())
+	q.display()
+	fmt.Println(q.dequeue())
+	q.display()
+	fmt.Println(q.dequeue())
+	q.display()
+	fmt.Println(q.first())
 }
